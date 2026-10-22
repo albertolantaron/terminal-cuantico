@@ -10,19 +10,6 @@ from streamlit_autorefresh import st_autorefresh
 # 1. Configuración de la interfaz profesional del terminal financiero Premium
 st.set_page_config(page_title="Terminal Fractal Cuántico", page_icon="📈", layout="wide")
 
-# 🌟 CONEXIÓN GLOBAL INTEGRADA DE GOOGLE ADSENSE (CÓDIGO META PROPIO VERIFICADO)
-# Inyectamos tu etiqueta meta exacta de Google AdSense directamente en la cabecera interna de la web.
-st.components.v1.html(
-    """
-    <head>
-        <meta name="google-adsense-account" content="ca-pub-1568292068922485">
-        <script async src="https://googlesyndication.com"
-         crossorigin="anonymous"></script>
-    </head>
-    """,
-    height=0,
-)
-
 # TÍTULO PRINCIPAL EN ESPAÑOL DE ALTA GAMA DE LA COMPAÑÍA
 st.title("📈 TERMINAL FRACTAL CUÁNTICO - Inteligencia Artificial Avanzada")
 st.write("Análisis cuantitativo de alta precisión con refresco continuado de mercado, predicción intradía por horas y detector de estados de bolsa.")
@@ -297,7 +284,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
             
             # --- MÓDULO COMERCIAL: PUENTE DE TRADING EN DIRECTO ---
             nombre_corto_crypto = ticker_activo.split("-")
-            url_binance_dinamica = f"https://binance.com{nombre_corto_crypto[0]}_USDT" if "-USD" in ticker_activo else "https://binance.com"
+            url_binance_dinamica = f"https://binance.com{nombre_corto_crypto}_USDT" if "-USD" in ticker_activo else "https://binance.com"
             
             st.markdown(
                 f"""
