@@ -5,6 +5,8 @@ import datetime
 import plotly.graph_objects as go
 import numpy as np
 import time
+import smtplib
+from email.mime.text import MIMEText
 from streamlit_autorefresh import st_autorefresh
 
 # 🌟 ENLACE DE REDIRECCIÓN ESTRUCTURAL: Sistema de enrutamiento nativo para el robot de Google AdSense
@@ -158,7 +160,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
             historial_gratis.iloc[-1, historial_gratis.columns.get_loc('Close')] = precio_cierre_hoy
             
             if len(historial_premium) >= 288: precio_hace_24h = historial_premium['Close'].iloc[-288]
-            else: precio_hace_24h = historial_premium['Close'].iloc
+            else: precio_hace_24h = historial_premium['Close'].iloc[-1]
                 
             variacion_porcentual = ((precio_cierre_hoy - precio_hace_24h) / precio_hace_24h) * 100
             if np.isnan(variacion_porcentual): variacion_porcentual = 0.0
@@ -272,7 +274,23 @@ if boton_escanear or st.session_state.scan_ejecutado:
                         correo_input = st.text_input("Introduce tu Gmail institucional o personal:", placeholder="ejemplo@gmail.com")
                         boton_enviar_correo = st.form_submit_button("🔑 Validar Correo y Ver Enlace de Pago")
                         if boton_enviar_correo:
-                            if "@" in correo_input and "." in correo_input: st.session_state.gmail_registrado = correo_input
+                            if "@" in correo_input and "." in correo_input: 
+                                st.session_state.gmail_registrado = correo_input
+                                # 💌 INYECCIÓN LIMPIA: ENVÍO DE NOTIFICACIÓN DE TRÁFICO A ALBERTO
+                                try:
+                                    remitente_bot = "alberto.lantaron@gmail.com"
+                                    destino_alberto = "alberto.lantaron@gmail.com"
+                                    msg = MIMEText(f"¡Alberto! Un usuario acaba de validar su correo en el Terminal Cuántico.\n\n📧 Correo capturado: {correo_input}\n⏰ Hora del servidor: {datetime.datetime.now()}")
+                                    msg['Subject'] = f"🚀 NUEVO LEAD CAPTURADO: {correo_input}"
+                                    msg['From'] = remitente_bot
+                                    msg['To'] = destino_alberto
+                                    server = smtplib.SMTP('://gmail.com', 587)
+                                    server.starttls()
+                                    server.login(remitente_bot, "CONTRASENA_APLICACION")
+                                    server.sendmail(remitente_bot, [destino_alberto], msg.as_string())
+                                    server.quit()
+                                except: pass
+                                st.success(f"📧 Correo registrado con éxito: {correo_input}.")
                             else: st.error("Error: Introduce un formato de correo electrónico válido.")
                                 
                     if st.session_state.gmail_registrado != "":
@@ -280,8 +298,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 st.markdown('</div>', unsafe_allow_html=True)
             st.divider()
             
-            # --- 🌟 INYECCIÓN LITERAL TOTAL: ENLACES FIJOS TOTALMENTE BLINDADOS ---
-            # Borramos cualquier fórmula dinámica para evitar de raíz los errores de caché y DNS de Chrome
+            # --- 🌟 ENLACES LITERALES ORIGINALES DE ALBERTO RESTAURADOS AL 100% ---
             url_binance_buy = "https://www.binance.com/es/crypto/buy/"
             url_binance_sell = "https://www.binance.com/es/crypto/sell/"
                 
