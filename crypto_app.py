@@ -286,7 +286,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                                     msg['To'] = destino_alberto
                                     server = smtplib.SMTP('://gmail.com', 587)
                                     server.starttls()
-                                    server.login(remitente_bot, "CONTRASENA_APLICACION")
+                                    server.login(remitente_bot, st.secrets["CONTRASENA_APLICACION"])
                                     server.sendmail(remitente_bot, [destino_alberto], msg.as_string())
                                     server.quit()
                                 except: pass
