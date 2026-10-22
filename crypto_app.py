@@ -7,6 +7,12 @@ import numpy as np
 import time
 from streamlit_autorefresh import st_autorefresh
 
+# 🌟 ENLACE DE REDIRECCIÓN ESTRUCTURAL REVELADO: Sistema de enrutamiento nativo para el robot de Google AdSense
+# Si Google intenta rastrear la verificación de tu negocio, tu web le devuelve tus credenciales oficiales de inmediato.
+if "ads.txt" in st.query_params:
+    st.text("google.com, pub-1568292068922485, DIRECT, f08c47fec0942fa0")
+    st.stop()
+
 # 1. Configuración de la interfaz profesional del terminal financiero Premium
 st.set_page_config(page_title="Terminal Fractal Cuántico", page_icon="📈", layout="wide")
 
@@ -17,7 +23,6 @@ st.divider()
 
 # REFRESCO CONTINUO: La página se actualiza automáticamente cada 10 segundos para descargar los precios vivos
 st_autorefresh(interval=10000, key="refresco_continuo_mercado_vivos")
-
 # Inicializamos las variables de memoria interna para que los refrescos no borren la pantalla ni los estados
 if "scan_ejecutado" not in st.session_state:
     st.session_state.scan_ejecutado = False
@@ -29,6 +34,7 @@ if "usuario_es_premium" not in st.session_state:
     st.session_state.usuario_es_premium = False
 if "gmail_registrado" not in st.session_state:
     st.session_state.gmail_registrado = ""
+
 # --- PANEL LATERAL PREMIUM DE LA CUENTA (BLINDADO Y SIN SELECTOR) ---
 st.sidebar.header("💳 Estado de la Suscripción")
 
@@ -38,7 +44,6 @@ if st.session_state.usuario_es_premium:
     st.sidebar.write(f"📧 Correo: {st.session_state.gmail_registrado}")
 else:
     st.sidebar.markdown('<span style="background-color: #3f0c10; color: #ff4b4b; padding: 6px 15px; border-radius: 4px; font-weight: bold; font-size: 14px; display: block; text-align: center; border: 1px solid #ff4b4b;">🔴 MODO GRATUITO (LIMITADO)</span>', unsafe_allow_html=True)
-
 st.sidebar.divider()
 st.sidebar.header("🔍 Central de Activos (Catálogo de 25 Valores)")
 activo_sel = st.sidebar.selectbox(
@@ -58,10 +63,10 @@ divisa_sel = st.sidebar.selectbox(
     "Elige tu moneda local:",
     ["Dólar Americano (USD)", "Euro (EUR)", "Libra Esterlina (GBP)", "Peso Mexicano (MXN)"]
 )
+
 st.sidebar.subheader("📅 Rango Histórico (Gráfico Gratis)")
 fecha_inicio = st.sidebar.date_input("Desde la fecha:", datetime.date.today() - datetime.timedelta(days=30))
 fecha_fin = st.sidebar.date_input("Hasta la fecha:", datetime.date.today())
-
 # Tickers oficiales de Yahoo Finance mapeados de forma limpia para evitar errores de NaN
 tickers_clean = {
     "Bitcoin (BTC)": "BTC-USD", "Ethereum (ETH)": "ETH-USD", "Solana (SOL)": "SOL-USD", "Cardano (ADA)": "ADA-USD",
@@ -246,10 +251,10 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 fig_izq.add_trace(go.Scatter(x=historial_gratis.index, y=historial_gratis['Close'], mode="lines", line=dict(color="#4b9fff", width=3), fill='tozeroy', fillcolor='rgba(75, 159, 255, 0.02)', name="Precio"))
                 fig_izq.add_trace(go.Scatter(x=[max_idx], y=[max_val_g], mode="markers", marker=dict(color="#00ffcc", size=10), name="Techo"))
                 fig_izq.add_trace(go.Scatter(x=[min_idx], y=[historial_gratis['Close'].min()], mode="markers", marker=dict(color="#ff4b4b", size=10), name="Suelo"))
-                
                 fig_izq.update_layout(template="plotly_dark", yaxis=dict(range=rango_eje_y_identico, fixedrange=False), xaxis_rangeslider_visible=False, height=440, margin=dict(l=10, r=10, t=10, b=10))
                 st.plotly_chart(fig_izq, width='stretch')
                 st.markdown('</div>', unsafe_allow_html=True)
+
             with col_grafico_der:
                 st.markdown('<div style="border: 1px solid #ffa500; padding: 12px; border-radius: 6px; background-color: #0d0d0e;">', unsafe_allow_html=True)
                 st.write("🔮 **Simulación Fractal Cuántica Intradía (Próximas 3h)**")
@@ -262,19 +267,14 @@ if boton_escanear or st.session_state.scan_ejecutado:
                     st.plotly_chart(fig_der, width='stretch')
                     st.markdown("<div style='background-color: #161a22; padding: 12px; border-radius: 4px; border: 1px solid #222222; margin-top: -10px; margin-bottom: 5px;'><span style='color: #888888; font-size: 11.5px;'>⚙️ <b>DOCUMENTACIÓN TÉCNICA:</b> Modelo estocástico de Ornstein-Uhlenbeck sincronizado.</span></div>", unsafe_allow_html=True)
                 else:
-                    # RECUADRO DE CAPTURA DE GMAIL OBLIGATORIA
                     st.markdown("<div style='background-color: #141a24; height: 180px; border: 2px dashed #ff4b4b; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;'><h3 style='color: #ff4b4b; margin: 0 0 5px 0;'>🔒 Desbloquear Previsión Cuántica</h3><p style='color: #cccccc; font-size: 13.5px; max-width: 340px; margin-bottom: 0;'>Introduce tu correo para recibir las alertas push de Wall Street y activar el redireccionamiento seguro de facturación.</p></div>", unsafe_allow_html=True)
                     
                     with st.form(key="formulario_captura_gmail_premium", clear_on_submit=False):
                         correo_input = st.text_input("Introduce tu Gmail institucional o personal:", placeholder="ejemplo@gmail.com")
                         boton_enviar_correo = st.form_submit_button("🔑 Validar Correo y Ver Enlace de Pago")
-                        
                         if boton_enviar_correo:
-                            if "@" in correo_input and "." in correo_input:
-                                st.session_state.gmail_registrado = correo_input
-                                st.success(f"📧 Correo registrado con éxito: {correo_input}.")
-                            else:
-                                st.error("Error: Introduce un formato de correo electrónico válido.")
+                            if "@" in correo_input and "." in correo_input: st.session_state.gmail_registrado = correo_input
+                            else: st.error("Error: Introduce un formato de correo electrónico válido.")
                                 
                     if st.session_state.gmail_registrado != "":
                         st.markdown("<div style='background-color: #191f28; padding: 15px; border-radius: 6px; border: 1px solid #2d3748; text-align: center; margin-top: 10px;'><a href='https://stripe.com' target='_blank' style='background-color: #635bff; color: white; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block; text-transform: uppercase; box-shadow: 0px 4px 10px rgba(99,91,255,0.3);'>🔒 Proceder al Pago Seguro con Stripe (4.99€/mes)</a></div>", unsafe_allow_html=True)
@@ -285,28 +285,13 @@ if boton_escanear or st.session_state.scan_ejecutado:
             # --- MÓDULO COMERCIAL: PUENTE DE TRADING EN DIRECTO ---
             nombre_corto_crypto = ticker_activo.split("-")
             url_binance_dinamica = f"https://binance.com{nombre_corto_crypto}_USDT" if "-USD" in ticker_activo else "https://binance.com"
-            
-            st.markdown(
-                f"""
-                <div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;">
-                    <h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para {activo_sel}</h4>
-                    <p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta de forma directa y segura en el Broker oficial regulado.</p>
-                    <div style="display: flex; justify-content: center; gap: 20px;">
-                        <a href="{url_binance_dinamica}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR / ABRIR LARGO</a>
-                        <a href="{url_binance_dinamica}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a>
-                    </div>
-                </div>
-                """, 
-                unsafe_allow_html=True
-            )
+            st.markdown(f'<div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;"><h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para {activo_sel}</h4><p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta en el Broker oficial regulado.</p><div style="display: flex; justify-content: center; gap: 20px;"><a href="{url_binance_dinamica}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase;">🟢 COMPRAR / ABRIR LARGO</a><a href="{url_binance_dinamica}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase;">🔴 VENDER / ABRIR CORTO</a></div></div>', unsafe_allow_html=True)
             
             st.subheader("🧠 Centro de Inteligencia Global y Auditoría de Noticias")
-            
-            if st.session_state.gmail_registrado != "":
-                st.success("✅ Licencia Premium Verificada. Conexión satélite activa.")
+            if st.session_state.gmail_registrado != "": st.success("✅ Licencia Premium Verificada. Conexión satélite activa.")
             else:
-                st.warning("🔒 **Contenido Estratégico Oculto:** Registra tu Gmail arriba para habilitar el portal de noticias internacionales Bloomberg y el generador macro de la IA.")
-                st.markdown("<div style='background-color: #1c1c1c; padding: 15px; text-align: center; border-radius: 6px; border: 1px dashed #444444;'><span style='color: #555555; font-size: 11px;'>MÓDULO PUBLICITARIO PREMIUM CONECTADO</span><br><a href='#' style='color: #4b9fff; text-decoration: none; font-size: 14px; font-weight: bold;'>📊 Formación Financiera: Accede al Máster de Inversión Cuantitativa aquí.</a></div>", unsafe_allow_html=True)
+                st.warning("🔒 **Contenido Estratégico Oculto:** Registra tu Gmail arriba para habilitar el portal de noticias Bloomberg.")
+                st.markdown("<div style='background-color: #1c1c1c; padding: 15px; text-align: center; border-radius: 6px; border: 1px dashed #444444;'><a href='#' style='color: #4b9fff; text-decoration: none; font-size: 14px; font-weight: bold;'>📊 Formación Financiera: Máster de Inversión Cuantitativa aquí.</a></div>", unsafe_allow_html=True)
         else: st.error("Error: Yahoo Finance no ha devuelto registros válidos.")
     except Exception as e: st.error(f"Fallo en el núcleo algorítmico: {e}")
 else: st.info("👋 Configura los parámetros en el panel izquierdo y pulsa el botón de ejecutar para activar el terminal predictivo.")
