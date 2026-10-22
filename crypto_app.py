@@ -282,14 +282,13 @@ if boton_escanear or st.session_state.scan_ejecutado:
             
             st.divider()
             
-            # --- 🌟 RECONEXIÓN INDUSTRIAL DEFINITIVA: RUTA AISLADA DE TRADING EN DIRECTO ---
-            # Forzamos la purga de siglas y minúsculas limpias exigidas por Binance
-            siglas_raw = ticker_activo.replace("-USD", "")
-            siglas_finales = siglas_raw.lower()
+            # --- 🌟 INYECCIÓN F-STRING BLINDADA: REDIRECCIÓN INDESTRUCTIBLE ---
+            # Forzamos la limpieza estricta en minúsculas exigida por Binance
+            siglas_clean = ticker_activo.replace("-USD", "").lower()
             
-            # Construimos la pasarela inyectando la barra separadora inclinada de forma estricta en el texto plano
+            # Usamos el enrutador f-string de Python para forzar al navegador a meter las barras '/' sí o sí
             if "-USD" in ticker_activo:
-                url_binance_dinamica = "https://binance.com" + siglas_finales + "_usdt?type=spot"
+                url_binance_dinamica = f"https://binance.com{siglas_clean}_usdt?type=spot"
             else:
                 url_binance_dinamica = "https://binance.com"
                 
