@@ -7,8 +7,7 @@ import numpy as np
 import time
 from streamlit_autorefresh import st_autorefresh
 
-# 🌟 ENLACE DE REDIRECCIÓN ESTRUCTURAL REVELADO: Sistema de enrutamiento nativo para el robot de Google AdSense
-# Si Google intenta rastrear la verificación de tu negocio, tu web le devuelve tus credenciales oficiales de inmediato.
+# 🌟 ENLACE DE REDIRECCIÓN ESTRUCTURAL: Sistema de enrutamiento nativo para el robot de Google AdSense
 if "ads.txt" in st.query_params:
     st.text("google.com, pub-1568292068922485, DIRECT, f08c47fec0942fa0")
     st.stop()
@@ -100,7 +99,7 @@ boton_escanear = st.button("🚀 Ejecutar Escáner Avanzado e Inteligencia Artif
 tiempo_actual = time.time()
 if not st.session_state.usuario_es_premium:
     if (tiempo_actual - st.session_state.ultimo_pop_up_tiempo) > 60.0:
-        st.session_state.ultimo_pop_up_tiempo = tiempo_actual
+        st.session_state.ultimo_pop_up_tiempo = time.time()
         st.session_state.mostrar_anuncio_flotante = True
 
 # --- ESTRATEGIA DE ANUNCIOS: BANNER SUPERIOR DEL INTERNET ---
@@ -251,6 +250,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 fig_izq.add_trace(go.Scatter(x=historial_gratis.index, y=historial_gratis['Close'], mode="lines", line=dict(color="#4b9fff", width=3), fill='tozeroy', fillcolor='rgba(75, 159, 255, 0.02)', name="Precio"))
                 fig_izq.add_trace(go.Scatter(x=[max_idx], y=[max_val_g], mode="markers", marker=dict(color="#00ffcc", size=10), name="Techo"))
                 fig_izq.add_trace(go.Scatter(x=[min_idx], y=[historial_gratis['Close'].min()], mode="markers", marker=dict(color="#ff4b4b", size=10), name="Suelo"))
+                
                 fig_izq.update_layout(template="plotly_dark", yaxis=dict(range=rango_eje_y_identico, fixedrange=False), xaxis_rangeslider_visible=False, height=440, margin=dict(l=10, r=10, t=10, b=10))
                 st.plotly_chart(fig_izq, width='stretch')
                 st.markdown('</div>', unsafe_allow_html=True)
@@ -282,15 +282,23 @@ if boton_escanear or st.session_state.scan_ejecutado:
             
             st.divider()
             
-            # --- MÓDULO COMERCIAL: PUENTE DE TRADING EN DIRECTO ---
-            nombre_corto_crypto = ticker_activo.split("-")
-            url_binance_dinamica = f"https://binance.com{nombre_corto_crypto}_USDT" if "-USD" in ticker_activo else "https://binance.com"
-            st.markdown(f'<div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;"><h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para {activo_sel}</h4><p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta en el Broker oficial regulado.</p><div style="display: flex; justify-content: center; gap: 20px;"><a href="{url_binance_dinamica}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase;">🟢 COMPRAR / ABRIR LARGO</a><a href="{url_binance_dinamica}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase;">🔴 VENDER / ABRIR CORTO</a></div></div>', unsafe_allow_html=True)
+            # --- 🌟 RECONEXIÓN INDUSTRIAL DEFINITIVA: RUTA AISLADA DE TRADING EN DIRECTO ---
+            # Forzamos la purga de siglas y minúsculas limpias exigidas por Binance
+            siglas_raw = ticker_activo.replace("-USD", "")
+            siglas_finales = siglas_raw.lower()
+            
+            # Construimos la pasarela inyectando la barra separadora inclinada de forma estricta en el texto plano
+            if "-USD" in ticker_activo:
+                url_binance_dinamica = "https://binance.com" + siglas_finales + "_usdt?type=spot"
+            else:
+                url_binance_dinamica = "https://binance.com"
+                
+            st.markdown(f'<div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;"><h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para {activo_sel}</h4><p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta en la plataforma oficial de Binance.</p><div style="display: flex; justify-content: center; gap: 20px;"><a href="{url_binance_dinamica}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR / ABRIR LARGO</a><a href="{url_binance_dinamica}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a></div></div>', unsafe_allow_html=True)
             
             st.subheader("🧠 Centro de Inteligencia Global y Auditoría de Noticias")
             if st.session_state.gmail_registrado != "": st.success("✅ Licencia Premium Verificada. Conexión satélite activa.")
             else:
-                st.warning("🔒 **Contenido Estratégico Oculto:** Registra tu Gmail arriba para habilitar el portal de noticias Bloomberg.")
+                st.warning("🔒 **Contenido Estratégico Oculto:** Registra tu Gmail arriba para habilitar el portal de noticias internacionales Bloomberg.")
                 st.markdown("<div style='background-color: #1c1c1c; padding: 15px; text-align: center; border-radius: 6px; border: 1px dashed #444444;'><a href='#' style='color: #4b9fff; text-decoration: none; font-size: 14px; font-weight: bold;'>📊 Formación Financiera: Máster de Inversión Cuantitativa aquí.</a></div>", unsafe_allow_html=True)
         else: st.error("Error: Yahoo Finance no ha devuelto registros válidos.")
     except Exception as e: st.error(f"Fallo en el núcleo algorítmico: {e}")
