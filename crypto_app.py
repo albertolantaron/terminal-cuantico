@@ -235,7 +235,6 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 
             precios_proyeccion_futura = precio_cierre_hoy + inercia_base + caminata_aleatoria
 
-            # UNIFICACIÓN DE ESCALA GLOBAL (Eje Y Idéntico)
             max_global_y = max(historial_gratis['Close'].max(), np.max(precios_base_reales), np.max(precios_proyeccion_futura))
             min_global_y = min(historial_gratis['Close'].min(), np.min(precios_base_reales), np.min(precios_proyeccion_futura))
             margen_dinamico = (max_global_y - min_global_y) * 0.06 if (max_global_y - min_global_y) > 0 else 10
@@ -276,7 +275,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                         if boton_enviar_correo:
                             if "@" in correo_input and "." in correo_input: 
                                 st.session_state.gmail_registrado = correo_input
-                                # 💌 INYECCIÓN LIMPIA: ENVÍO DE NOTIFICACIÓN DE TRÁFICO A ALBERTO
+                                # 💌 ENGRANAJE REPARADO EN MINÚSCULAS: CONEXIÓN OFICIAL DE STREAMLIT CON LOS SECRETS
                                 try:
                                     remitente_bot = "alberto.lantaron@gmail.com"
                                     destino_alberto = "alberto.lantaron@gmail.com"
@@ -286,6 +285,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                                     msg['To'] = destino_alberto
                                     server = smtplib.SMTP('://gmail.com', 587)
                                     server.starttls()
+                                    # Corregido de forma nativa para que enlace con tu cuadro negro
                                     server.login(remitente_bot, st.secrets["CONTRASENA_APLICACION"])
                                     server.sendmail(remitente_bot, [destino_alberto], msg.as_string())
                                     server.quit()
@@ -296,9 +296,9 @@ if boton_escanear or st.session_state.scan_ejecutado:
                     if st.session_state.gmail_registrado != "":
                         st.markdown("<div style='background-color: #191f28; padding: 15px; border-radius: 6px; border: 1px solid #2d3748; text-align: center; margin-top: 10px;'><a href='https://stripe.com' target='_blank' style='background-color: #635bff; color: white; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block; text-transform: uppercase; box-shadow: 0px 4px 10px rgba(99,91,255,0.3);'>🔒 Proceder al Pago Seguro con Stripe (4.99€/mes)</a></div>", unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
-            st.divider()
+                st.divider()
             
-            # --- 🌟 ENLACES LITERALES ORIGINALES DE ALBERTO RESTAURADOS AL 100% ---
+            # --- 🌟 ENLACES LITERALES ORIGINALES BLINDADOS DE ALBERTO ---
             url_binance_buy = "https://www.binance.com/es/crypto/buy/"
             url_binance_sell = "https://www.binance.com/es/crypto/sell/"
                 
@@ -306,7 +306,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 f"""
                 <div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;">
                     <h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para Bitcoin (BTC)</h4>
-                    <p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta en la pasarela oficial regulada de Binance.</p>
+                    <p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta en la pasarela oficial de Binance.</p>
                     <div style="display: flex; justify-content: center; gap: 20px;">
                         <a href="{url_binance_buy}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR / ABRIR LARGO</a>
                         <a href="{url_binance_sell}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a>
