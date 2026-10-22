@@ -10,6 +10,16 @@ from streamlit_autorefresh import st_autorefresh
 # 1. Configuración de la interfaz profesional del terminal financiero Premium
 st.set_page_config(page_title="Terminal Fractal Cuántico", page_icon="📈", layout="wide")
 
+# 🌟 CONEXIÓN OFICIAL DIRECTA DE GOOGLE ADSENSE: Inyectamos el script directamente en la estructura
+# Esto hace que el robot de Google localice tu código de editor al instante en cuanto entre a la web.
+st.components.v1.html(
+    """
+    <script async src="https://googlesyndication.com"
+     crossorigin="anonymous"></script>
+    """,
+    height=0,
+)
+
 # TÍTULO PRINCIPAL EN ESPAÑOL DE ALTA GAMA DE LA COMPAÑÍA
 st.title("📈 TERMINAL FRACTAL CUÁNTICO - Inteligencia Artificial Avanzada")
 st.write("Análisis cuantitativo de alta precisión con refresco continuado de mercado, predicción intradía por horas y detector de estados de bolsa.")
@@ -25,8 +35,6 @@ if "ultimo_pop_up_tiempo" not in st.session_state:
     st.session_state.ultimo_pop_up_tiempo = 0.0
 if "mostrar_anuncio_flotante" not in st.session_state:
     st.session_state.mostrar_anuncio_flotante = False
-    
-# 🌟 BLINDAJE REAL DE PRODUCCIÓN: Eliminamos los selectores manuales. El usuario arranca como Gratuito bloqueado
 if "usuario_es_premium" not in st.session_state:
     st.session_state.usuario_es_premium = False
 if "gmail_registrado" not in st.session_state:
@@ -111,7 +119,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# LOGICA DE CIERRE DE ANUNCIOS INTERACTIVA: El botón de cierre ahora funciona perfectamente limpiando la pantalla
+# LOGICA DE CIERRE DE ANUNCIOS INTERACTIVA
 if not st.session_state.usuario_es_premium and st.session_state.mostrar_anuncio_flotante:
     with st.container():
         st.markdown(
@@ -210,7 +218,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
             )
             
             col_grafico_izq, col_grafico_der = st.columns(2)
-            # --- PREPARACIÓN MATEMÁTICA DE LA PREDICCIÓN ALINEADA CON RUEDAS DE MONTECARLO ---
+            # --- PREPARACIÓN MATEMÁTICA DE LA PREDICCIÓN ALINEADA ---
             precios_base_reales = historial_premium['Close'].values[-36:]
             fechas_pasadas_reales = historial_premium.index[-36:]
             ultima_fecha_real = fechas_pasadas_reales[-1]
@@ -222,7 +230,6 @@ if boton_escanear or st.session_state.scan_ejecutado:
             semilla_temporal = int(ultima_fecha_real.strftime("%Y%m%d%H"))
             np.random.seed(semilla_temporal)
             
-            # Algoritmo estocástico puro inyectado con la inercia real del mercado (Con micro-picos fractales)
             pasos_estocasticos = np.random.normal(0, precio_cierre_hoy * volatilidad_real * 0.7, 36)
             caminata_aleatoria = np.cumsum(pasos_estocasticos)
             
@@ -265,7 +272,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                     st.plotly_chart(fig_der, width='stretch')
                     st.markdown("<div style='background-color: #161a22; padding: 12px; border-radius: 4px; border: 1px solid #222222; margin-top: -10px; margin-bottom: 5px;'><span style='color: #888888; font-size: 11.5px;'>⚙️ <b>DOCUMENTACIÓN TÉCNICA:</b> Modelo estocástico de Ornstein-Uhlenbeck sincronizado.</span></div>", unsafe_allow_html=True)
                 else:
-                    # RECUADRO DE CAPTURA DE GMAIL OBLIGATORIA (Muro comercial de conversión)
+                    # RECUADRO DE CAPTURA DE GMAIL OBLIGATORIA
                     st.markdown("<div style='background-color: #141a24; height: 180px; border: 2px dashed #ff4b4b; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;'><h3 style='color: #ff4b4b; margin: 0 0 5px 0;'>🔒 Desbloquear Previsión Cuántica</h3><p style='color: #cccccc; font-size: 13.5px; max-width: 340px; margin-bottom: 0;'>Introduce tu correo para recibir las alertas push de Wall Street y activar el redireccionamiento seguro de facturación.</p></div>", unsafe_allow_html=True)
                     
                     with st.form(key="formulario_captura_gmail_premium", clear_on_submit=False):
@@ -275,19 +282,37 @@ if boton_escanear or st.session_state.scan_ejecutado:
                         if boton_enviar_correo:
                             if "@" in correo_input and "." in correo_input:
                                 st.session_state.gmail_registrado = correo_input
-                                st.success(f"📧 Correo registrado con éxito: {correo_input}. Ya puedes pulsar abajo para pagar de forma blindada.")
+                                st.success(f"📧 Correo registrado con éxito: {correo_input}.")
                             else:
                                 st.error("Error: Introduce un formato de correo electrónico válido.")
                                 
                     if st.session_state.gmail_registrado != "":
-                        # 🌟 INTEGRACIÓN DE TU LINK DE STRIPE REAL COMPROBADO Y BLINDADO
-                        st.markdown("<div style='background-color: #191f28; padding: 15px; border-radius: 6px; border: 1px solid #2d3748; text-align: center; margin-top: 10px;'><a href='https://buy.stripe.com/8x2fZjapEeTc8FZaEC0Ny00' target='_blank' style='background-color: #635bff; color: white; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block; text-transform: uppercase; box-shadow: 0px 4px 10px rgba(99,91,255,0.3);'>🔒 Proceder al Pago Seguro con Stripe (4.99€/mes)</a></div>", unsafe_allow_html=True)
+                        st.markdown("<div style='background-color: #191f28; padding: 15px; border-radius: 6px; border: 1px solid #2d3748; text-align: center; margin-top: 10px;'><a href='https://stripe.com' target='_blank' style='background-color: #635bff; color: white; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block; text-transform: uppercase; box-shadow: 0px 4px 10px rgba(99,91,255,0.3);'>🔒 Proceder al Pago Seguro con Stripe (4.99€/mes)</a></div>", unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
             
             st.divider()
+            
+            # --- MÓDULO COMERCIAL: PUENTE DE TRADING EN DIRECTO ---
+            nombre_corto_crypto = ticker_activo.split("-")[0]
+            url_binance_dinamica = f"https://binance.com{nombre_corto_crypto}_USDT" if "-USD" in ticker_activo else "https://binance.com"
+            
+            st.markdown(
+                f"""
+                <div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;">
+                    <h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para {activo_sel}</h4>
+                    <p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta de forma directa y segura en el Broker oficial regulado.</p>
+                    <div style="display: flex; justify-content: center; gap: 20px;">
+                        <a href="{url_binance_dinamica}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR / ABRIR LARGO</a>
+                        <a href="{url_binance_dinamica}" target="_blank" style="background-blank: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a>
+                    </div>
+                </div>
+                """, 
+                unsafe_allow_html=True
+            )
+            
             st.subheader("🧠 Centro de Inteligencia Global y Auditoría de Noticias")
             
-            if st.session_state.usuario_es_premium:
+            if st.session_state.gmail_registrado != "":
                 st.success("✅ Licencia Premium Verificada. Conexión satélite activa.")
             else:
                 st.warning("🔒 **Contenido Estratégico Oculto:** Registra tu Gmail arriba para habilitar el portal de noticias internacionales Bloomberg y el generador macro de la IA.")
