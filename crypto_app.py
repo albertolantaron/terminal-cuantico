@@ -250,7 +250,6 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 fig_izq.add_trace(go.Scatter(x=historial_gratis.index, y=historial_gratis['Close'], mode="lines", line=dict(color="#4b9fff", width=3), fill='tozeroy', fillcolor='rgba(75, 159, 255, 0.02)', name="Precio"))
                 fig_izq.add_trace(go.Scatter(x=[max_idx], y=[max_val_g], mode="markers", marker=dict(color="#00ffcc", size=10), name="Techo"))
                 fig_izq.add_trace(go.Scatter(x=[min_idx], y=[historial_gratis['Close'].min()], mode="markers", marker=dict(color="#ff4b4b", size=10), name="Suelo"))
-                
                 fig_izq.update_layout(template="plotly_dark", yaxis=dict(range=rango_eje_y_identico, fixedrange=False), xaxis_rangeslider_visible=False, height=440, margin=dict(l=10, r=10, t=10, b=10))
                 st.plotly_chart(fig_izq, width='stretch')
                 st.markdown('</div>', unsafe_allow_html=True)
@@ -279,26 +278,36 @@ if boton_escanear or st.session_state.scan_ejecutado:
                     if st.session_state.gmail_registrado != "":
                         st.markdown("<div style='background-color: #191f28; padding: 15px; border-radius: 6px; border: 1px solid #2d3748; text-align: center; margin-top: 10px;'><a href='https://stripe.com' target='_blank' style='background-color: #635bff; color: white; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block; text-transform: uppercase; box-shadow: 0px 4px 10px rgba(99,91,255,0.3);'>🔒 Proceder al Pago Seguro con Stripe (4.99€/mes)</a></div>", unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
-            
             st.divider()
             
-            # --- 🌟 INYECCIÓN F-STRING BLINDADA: REDIRECCIÓN INDESTRUCTIBLE ---
-            # Forzamos la limpieza estricta en minúsculas exigida por Binance
-            siglas_clean = ticker_activo.replace("-USD", "").lower()
-            
-            # Usamos el enrutador f-string de Python para forzar al navegador a meter las barras '/' sí o sí
-            if "-USD" in ticker_activo:
-                url_binance_dinamica = f"https://binance.com{siglas_clean}_usdt?type=spot"
-            else:
-                url_binance_dinamica = "https://binance.com"
+            # --- 🌟 INYECCIÓN LITERAL TOTAL: ENLACES FIJOS TOTALMENTE BLINDADOS ---
+            # Borramos cualquier fórmula dinámica para evitar de raíz los errores de caché y DNS de Chrome
+            url_binance_buy = "https://www.binance.com/es/crypto/buy/"
+            url_binance_sell = "https://www.binance.com/es/crypto/sell/"
                 
-            st.markdown(f'<div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;"><h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para {activo_sel}</h4><p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta en la plataforma oficial de Binance.</p><div style="display: flex; justify-content: center; gap: 20px;"><a href="{url_binance_dinamica}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR / ABRIR LARGO</a><a href="{url_binance_dinamica}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a></div></div>', unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;">
+                    <h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para Bitcoin (BTC)</h4>
+                    <p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta en la pasarela oficial regulada de Binance.</p>
+                    <div style="display: flex; justify-content: center; gap: 20px;">
+                        <a href="{url_binance_buy}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR / ABRIR LARGO</a>
+                        <a href="{url_binance_sell}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a>
+                    </div>
+                </div>
+                """, 
+                unsafe_allow_html=True
+            )
             
             st.subheader("🧠 Centro de Inteligencia Global y Auditoría de Noticias")
-            if st.session_state.gmail_registrado != "": st.success("✅ Licencia Premium Verificada. Conexión satélite activa.")
+            if st.session_state.gmail_registrado != "": 
+                st.success("✅ Licencia Premium Verificada. Conexión satélite activa.")
             else:
                 st.warning("🔒 **Contenido Estratégico Oculto:** Registra tu Gmail arriba para habilitar el portal de noticias internacionales Bloomberg.")
                 st.markdown("<div style='background-color: #1c1c1c; padding: 15px; text-align: center; border-radius: 6px; border: 1px dashed #444444;'><a href='#' style='color: #4b9fff; text-decoration: none; font-size: 14px; font-weight: bold;'>📊 Formación Financiera: Máster de Inversión Cuantitativa aquí.</a></div>", unsafe_allow_html=True)
-        else: st.error("Error: Yahoo Finance no ha devuelto registros válidos.")
-    except Exception as e: st.error(f"Fallo en el núcleo algorítmico: {e}")
-else: st.info("👋 Configura los parámetros en el panel izquierdo y pulsa el botón de ejecutar para activar el terminal predictivo.")
+        else: 
+            st.error("Error: Yahoo Finance no ha devuelto registros válidos.")
+    except Exception as e: 
+        st.error(f"Fallo en el núcleo algorítmico: {e}")
+else: 
+    st.info("👋 Configura los parámetros en el panel izquierdo y pulsa el botón de ejecutar para activar el terminal predictivo.")
