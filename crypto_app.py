@@ -10,12 +10,15 @@ from streamlit_autorefresh import st_autorefresh
 # 1. Configuración de la interfaz profesional del terminal financiero Premium
 st.set_page_config(page_title="Terminal Fractal Cuántico", page_icon="📈", layout="wide")
 
-# 🌟 CONEXIÓN OFICIAL DIRECTA DE GOOGLE ADSENSE: Inyectamos el script directamente en la estructura
-# Esto hace que el robot de Google localice tu código de editor al instante en cuanto entre a la web.
+# 🌟 CONEXIÓN GLOBAL INTEGRADA DE GOOGLE ADSENSE (CÓDIGO META PROPIO VERIFICADO)
+# Inyectamos tu etiqueta meta exacta de Google AdSense directamente en la cabecera interna de la web.
 st.components.v1.html(
     """
-    <script async src="https://googlesyndication.com"
-     crossorigin="anonymous"></script>
+    <head>
+        <meta name="google-adsense-account" content="ca-pub-1568292068922485">
+        <script async src="https://googlesyndication.com"
+         crossorigin="anonymous"></script>
+    </head>
     """,
     height=0,
 )
@@ -293,8 +296,8 @@ if boton_escanear or st.session_state.scan_ejecutado:
             st.divider()
             
             # --- MÓDULO COMERCIAL: PUENTE DE TRADING EN DIRECTO ---
-            nombre_corto_crypto = ticker_activo.split("-")[0]
-            url_binance_dinamica = f"https://binance.com{nombre_corto_crypto}_USDT" if "-USD" in ticker_activo else "https://binance.com"
+            nombre_corto_crypto = ticker_activo.split("-")
+            url_binance_dinamica = f"https://binance.com{nombre_corto_crypto[0]}_USDT" if "-USD" in ticker_activo else "https://binance.com"
             
             st.markdown(
                 f"""
@@ -303,7 +306,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                     <p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Ejecuta tu orden de compra o venta de forma directa y segura en el Broker oficial regulado.</p>
                     <div style="display: flex; justify-content: center; gap: 20px;">
                         <a href="{url_binance_dinamica}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR / ABRIR LARGO</a>
-                        <a href="{url_binance_dinamica}" target="_blank" style="background-blank: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a>
+                        <a href="{url_binance_dinamica}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER / ABRIR CORTO</a>
                     </div>
                 </div>
                 """, 
