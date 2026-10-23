@@ -11,7 +11,27 @@ if "ads.txt" in st.query_params:
     st.text("google.com, pub-1568292068922485, DIRECT, f08c47fec0942fa0")
     st.stop()
 
-st.set_page_config(page_title="Terminal Fractal Cuántico", page_icon="📈", layout="wide")
+st.set_page_config(
+    page_title="Terminal Fractal Cuántico | Inteligencia Artificial y Análisis de Bolsa",
+    page_icon="📈",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# --- METAETIQUETAS SEO PARA GOOGLE Y BUSCADORES ---
+st.markdown(
+    """
+    <head>
+        <meta name="description" content="Terminal Fractal Cuántico: Análisis cuantitativo en tiempo real, predicción intradía por IA y detector de estados de bolsa para Bitcoin, Criptomonedas y Acciones de Wall Street.">
+        <meta name="keywords" content="Terminal Cuantica, Terminal Fractal, prediccion bolsa IA, analisis cuantitativo, Bitcoin prediccion, trading cuantitativo, bolsa en vivo">
+        <meta name="author" content="Alberto Lantaron">
+        <meta property="og:title" content="Terminal Fractal Cuántico - IA y Análisis Cuantitativo">
+        <meta property="og:description" content="Análisis cuantitativo de alta precisión con refresco continuado de mercado y predicción intradía por horas.">
+        <meta property="og:type" content="website">
+    </head>
+    """,
+    unsafe_allow_html=True
+)
 
 # --- INICIALIZACIÓN DE ESTADOS Y BASE DE DATOS LOCAL DE CLIENTES ---
 if "usuario_es_premium" not in st.session_state:
