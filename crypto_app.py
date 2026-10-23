@@ -21,7 +21,7 @@ if "gmail_registrado" not in st.session_state:
 if "lista_leads_historico" not in st.session_state:
     st.session_state.lista_leads_historico = []
 
-# Base de datos simulada de suscriptores de pago activos (Aquí se añadirán los emails de los que paguen)
+# Base de datos simulada de suscriptores de pago activos (Administradores + Clientes que pagan)
 if "clientes_premium_activos" not in st.session_state:
     st.session_state.clientes_premium_activos = [
         "alberto.lantaron@gmail.com", 
@@ -341,7 +341,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 st.warning("🔒 **Contenido Estratégico Oculto:** El hilo informativo dinámico en tiempo real de Bloomberg, Wall Street y las alertas algorítmicas de compra/venta están reservados para cuentas Premium activas. Realiza tu abono para encender el satélite.")
                 st.markdown("<div style='background-color: #1c1c1c; padding: 15px; text-align: center; border-radius: 6px; border: 1px dashed #444444;'><span style='color: #ff4b4b; font-weight: bold;'>Módulo restringido. Requiere validación de licencia.</span></div>", unsafe_allow_html=True)
             
-            # --- PANEL DE CONTROL PRIVADO PARA TI (CONTROL DE CLIENTES Y LEADS) ---
+            # --- PANEL DE CONTROL PRIVADO EXCLUSIVO PARA LOS ADMINISTRADORES ---
             if st.session_state.gmail_registrado in ["alberto.lantaron@gmail.com", "albertterre.lantaron@gmail.com"]:
                 st.divider()
                 st.info(f"📊 **PANEL DE CONTROL DE ALBERTO (CLIENTES PREMIUM ACTIVOS):** {st.session_state.clientes_premium_activos}")
