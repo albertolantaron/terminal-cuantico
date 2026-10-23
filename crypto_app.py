@@ -13,6 +13,32 @@ if "ads.txt" in st.query_params:
 
 st.set_page_config(page_title="Terminal Fractal Cuántico", page_icon="📈", layout="wide")
 
+# --- INICIALIZACIÓN DE ESTADOS Y BASE DE DATOS LOCAL DE CLIENTES ---
+if "usuario_es_premium" not in st.session_state:
+    st.session_state.usuario_es_premium = False
+if "gmail_registrado" not in st.session_state:
+    st.session_state.gmail_registrado = ""
+if "lista_leads_historico" not in st.session_state:
+    st.session_state.lista_leads_historico = []
+
+# Base de datos simulada de suscriptores de pago activos (Aquí se añadirán los emails de los que paguen)
+if "clientes_premium_activos" not in st.session_state:
+    st.session_state.clientes_premium_activos = [
+        "alberto.lantaron@gmail.com", 
+        "albertterre.lantaron@gmail.com"
+    ]
+
+# --- DETECCIÓN AUTOMÁTICA DE PAGO EXITOSO DESDE STRIPE ---
+query_params = st.query_params
+if "pago_completado" in query_params and query_params["pago_completado"] == "true":
+    correo_comprador = query_params.get("email_cliente", "")
+    if correo_comprador and "@" in correo_comprador:
+        st.session_state.usuario_es_premium = True
+        st.session_state.gmail_registrado = correo_comprador
+        # Añadimos automáticamente al comprador a la lista de activos si no estaba
+        if correo_comprador not in st.session_state.clientes_premium_activos:
+            st.session_state.clientes_premium_activos.append(correo_comprador)
+
 st.title("📈 TERMINAL FRACTAL CUÁNTICO - Inteligencia Artificial Avanzada")
 st.write("Análisis cuantitativo de alta precisión con refresco continuado de mercado, predicción intradía por horas y detector de estados de bolsa.")
 st.divider()
@@ -24,22 +50,32 @@ if "ultimo_pop_up_tiempo" not in st.session_state:
     st.session_state.ultimo_pop_up_tiempo = 0.0
 if "mostrar_anuncio_flotante" not in st.session_state:
     st.session_state.mostrar_anuncio_flotante = False
-if "usuario_es_premium" not in st.session_state:
-    st.session_state.usuario_es_premium = False
-if "gmail_registrado" not in st.session_state:
-    st.session_state.gmail_registrado = ""
-if "lista_leads_historico" not in st.session_state:
-    st.session_state.lista_leads_historico = []
-if "codigos_usados_sistema" not in st.session_state:
-    st.session_state.codigos_usados_sistema = {}
 
 st.sidebar.header("💳 Estado de la Suscripción")
 
 if st.session_state.usuario_es_premium:
     st.sidebar.markdown('<span style="background-color: #143224; color: #00ffcc; padding: 6px 15px; border-radius: 4px; font-weight: bold; font-size: 14px; display: block; text-align: center; border: 1px solid #00ffcc;">🟢 ACCESO PREMIUM ACTIVO</span>', unsafe_allow_html=True)
     st.sidebar.write(f"📧 Cuenta Premium: {st.session_state.gmail_registrado}")
+    if st.sidebar.button("🚪 Cerrar Sesión"):
+        st.session_state.usuario_es_premium = False
+        st.session_state.gmail_registrado = ""
+        st.rerun()
 else:
     st.sidebar.markdown('<span style="background-color: #3f0c10; color: #ff4b4b; padding: 6px 15px; border-radius: 4px; font-weight: bold; font-size: 14px; display: block; text-align: center; border: 1px solid #ff4b4b;">🔴 MODO GRATUITO (LIMITADO)</span>', unsafe_allow_html=True)
+    
+    with st.sidebar.form("form_login_cliente"):
+        st.write("¿Ya pagaste tu suscripción? Inicia sesión:")
+        correo_login = st.text_input("Tu Correo:", placeholder="tucorreo@gmail.com")
+        btn_login = st.form_submit_button("🔑 Entrar como Premium")
+        if btn_login:
+            if correo_login.strip().lower() in [c.lower() for c in st.session_state.clientes_premium_activos]:
+                st.session_state.usuario_es_premium = True
+                st.session_state.gmail_registrado = correo_login.strip()
+                st.success("¡Sesión restaurada con éxito!")
+                st.rerun()
+            else:
+                st.error("❌ Este correo no figura como suscriptor activo de pago.")
+
 st.sidebar.divider()
 st.sidebar.header("🔍 Central de Activos (Catálogo de 25 Valores)")
 activo_sel = st.sidebar.selectbox(
@@ -123,6 +159,7 @@ if not st.session_state.usuario_es_premium and st.session_state.mostrar_anuncio_
         if st.button("❌ Cerrar Anuncio y Seguir Navegando"):
             st.session_state.mostrar_anuncio_flotante = False
             st.rerun()
+
 if boton_escanear or st.session_state.scan_ejecutado:
     st.session_state.scan_ejecutado = True
     
@@ -196,7 +233,7 @@ if boton_escanear or st.session_state.scan_ejecutado:
                         <div style="text-align: center; flex: 1;"><span style="color: #888888; font-size: 11px; text-transform: uppercase;">Precio Vivo</span><br><strong style="font-size: 24px; color: #ffffff;">{precio_cierre_hoy:,.2f} {simbolo_divisa}</strong></div>
                         <div style="text-align: center; flex: 1;"><span style="color: #888888; font-size: 11px; text-transform: uppercase;">Variación Nominal (Bruta)</span><br><strong style="font-size: 24px; color: {'#00ffcc' if variacion_nominal_bruta >= 0 else '#ff4b4b'};">{variacion_nominal_bruta:+,.2f} {simbolo_divisa}</strong></div>
                         <div style="text-align: center; flex: 1;"><span style="color: #888888; font-size: 11px; text-transform: uppercase;">Variación % (24h)</span><br><strong style="font-size: 24px; color: {'#00ffcc' if variacion_porcentual >= 0 else '#ff4b4b'};">{variacion_porcentual:+.2f}%</strong></div>
-                        <div style="text-align: center; flex: 1;"><span style="color: #888888; font-size: 11px; text-transform: uppercase;">Rango Diario</span><br><strong style="font-size: 16px; color: #cccccc;">{min_dia:,.2f} {simbolo_divisa} - {max_dia:,.2f} {simbolo_divisa}</strong></div>
+                        <div style="text-align: center; flex: 1;"><span style="color: #888888; font-size: 11px; text-transform: uppercase;">Rango Diario</span><br><strong style="font-size: 16px; color: #cccccc;">{min_dia:,.2f} {simbolo_divisa} / {max_dia:,.2f} {simbolo_divisa}</strong></div>
                     </div>
                 </div>
                 """, 
@@ -243,13 +280,11 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 fig_izq.update_layout(template="plotly_dark", yaxis=dict(range=rango_eje_y_identico, fixedrange=False), xaxis_rangeslider_visible=False, height=440, margin=dict(l=10, r=10, t=10, b=10))
                 st.plotly_chart(fig_izq, width='stretch')
                 st.markdown('</div>', unsafe_allow_html=True)
+
             with col_grafico_der:
                 st.markdown('<div style="border: 1px solid #ffa500; padding: 12px; border-radius: 6px; background-color: #0d0d0e;">', unsafe_allow_html=True)
                 st.write("🔮 **Simulación Fractal Cuántica Intradía (Próximas 3h)**")
                 
-                if st.session_state.gmail_registrado in ["alberto.lantaron@gmail.com", "albertterre.lantaron@gmail.com"]:
-                    st.session_state.usuario_es_premium = True
-                    
                 if st.session_state.usuario_es_premium:
                     fig_der = go.Figure()
                     fig_der.add_trace(go.Scatter(x=fechas_pasadas_reales, y=precios_base_reales, mode="lines+markers", marker=dict(size=4), line=dict(color="#00ffcc", width=2.5), name="Historial Real"))
@@ -258,51 +293,18 @@ if boton_escanear or st.session_state.scan_ejecutado:
                     st.plotly_chart(fig_der, width='stretch')
                     st.markdown("<div style='background-color: #161a22; padding: 12px; border-radius: 4px; border: 1px solid #222222; margin-top: -10px; margin-bottom: 5px;'><span style='color: #888888; font-size: 11.5px;'>⚙️ <b>DOCUMENTACIÓN TÉCNICA:</b> Modelo estocástico de Ornstein-Uhlenbeck sincronizado.</span></div>", unsafe_allow_html=True)
                 else:
-                    st.markdown("<div style='background-color: #141a24; height: 160px; border: 2px dashed #ff4b4b; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;'><h3 style='color: #ff4b4b; margin: 0 0 5px 0;'>🔒 Desbloquear Previsión Cuántica</h3><p style='color: #cccccc; font-size: 13.5px; max-width: 340px; margin-bottom: 0;'>Paso 1: Registra tu correo. Paso 2: Realiza el abono seguro en Stripe para activar los gráficos de predicción.</p></div>", unsafe_allow_html=True)
+                    st.markdown("<div style='background-color: #141a24; height: 160px; border: 2px dashed #ff4b4b; border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;'><h3 style='color: #ff4b4b; margin: 0 0 5px 0;'>🔒 Desbloquear Previsión Cuántica</h3><p style='color: #cccccc; font-size: 13.5px; max-width: 340px; margin-bottom: 0;'>Haz clic abajo para abonar la suscripción en Stripe. Al terminar, volverás aquí con el acceso Premium activado automáticamente.</p></div>", unsafe_allow_html=True)
                     
-                    with st.form(key="formulario_captura_gmail_premium", clear_on_submit=False):
-                        correo_input = st.text_input("Introduce tu Gmail:", placeholder="ejemplo@gmail.com")
-                        boton_enviar_correo = st.form_submit_button("🔑 Registrar Email")
-                        if boton_enviar_correo:
-                            if "@" in correo_input and "." in correo_input: 
-                                st.session_state.gmail_registrado = correo_input
-                                if correo_input not in st.session_state.lista_leads_historico:
-                                    st.session_state.lista_leads_historico.append(correo_input)
-                                st.success("✅ Correo procesado en la pasarela. Completa el abono abajo para recibir tu clave.")
-                            else: st.error("Error: Introduce un formato de correo electrónico válido.")
-                    
-                    # --- 🔒 CÓDIGO BÚNKER ANTI-PIRATERÍA (VINCULACIÓN POR DISPOSITIVO ÚNICO) ---
-                    with st.form(key="formulario_codigo_activacion_premium", clear_on_submit=False):
-                        codigo_input = st.text_input("🔑 Introduce tu Código de Activación Premium (Enviado tras el pago):", placeholder="PREMIUM-XXXX")
-                        boton_validar_codigo = st.form_submit_button("🔓 Activar Terminal Completa")
-                        if boton_validar_codigo:
-                            codigo_limpio = codigo_input.strip().upper()
-                            
-                            # Simulamos las claves dinámicas válidas de Stripe generadas por tu pasarela
-                            if codigo_limpio in ["PREMIUM-ACTIVO-7721", "ALBERTO-JEFE-2026"] or (codigo_limpio.startswith("PREMIUM-") and len(codigo_limpio) == 16):
-                                # Verificamos si este DNI de factura ya ha sido usado por otra persona antes
-                                if codigo_limpio in st.session_state.codigos_usados_sistema:
-                                    st.error("❌ Error de Seguridad: Este código de activación ya ha sido usado en otro dispositivo móvil u ordenador. Licencia bloqueada por anti-piratería.")
-                                else:
-                                    # Sellamos el código para siempre vinculándolo a esta sesión única de internet
-                                    st.session_state.codigos_usados_sistema[codigo_limpio] = st.session_state.gmail_registrado
-                                    st.session_state.usuario_es_premium = True
-                                    st.success("🎉 ¡Licencia Premium Verificada con éxito! Central Cuántica Desbloqueada.")
-                                    st.rerun()
-                            else:
-                                st.error("❌ Código incorrecto. Verifica el recibo de Stripe o contacta con soporte.")
-                                
                     url_stripe_checkout = "https://buy.stripe.com/3cI14pgO28uO8FZ1420Ny01"
-                    st.markdown(f"<div style='background-color: #191f28; padding: 15px; border-radius: 6px; border: 1px solid #2d3748; text-align: center; margin-top: 10px;'><a href='{url_stripe_checkout}' target='_blank' style='background-color: #635bff; color: white; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block; text-transform: uppercase;'>🔒 PAGAR SUSCRIPCIÓN PREMIUM (4.99€/mes)</a></div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='background-color: #191f28; padding: 15px; border-radius: 6px; border: 1px solid #2d3748; text-align: center; margin-top: 15px;'><a href='{url_stripe_checkout}' target='_blank' style='background-color: #635bff; color: white; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block; text-transform: uppercase;'>🔒 PAGAR SUSCRIPCIÓN PREMIUM (4.99€/mes)</a></div>", unsafe_allow_html=True)
+                
                 st.markdown('</div>', unsafe_allow_html=True)
             st.divider()
             
-            # Pasarelas fijas de Binance originales en texto plano (0% Bloqueos de IP)
             url_binance_buy = "https://www.binance.com/es/crypto/buy/"
             url_binance_sell = "https://www.binance.com/es/crypto/sell/"
             st.markdown(f'<div style="background-color: #12161f; border: 1px solid #2d3748; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 25px;"><h4 style="color: #ffffff; margin-top: 0; margin-bottom: 10px;">⚡ Pasarela de Operaciones Instantánea para Bitcoin (BTC)</h4><p style="color: #a0aec0; font-size: 13.5px; margin-bottom: 15px;">¿Has detectado una oportunidad cuántica? Opera en la pasarela oficial regulada de Binance.</p><div style="display: flex; justify-content: center; gap: 20px;"><a href="{url_binance_buy}" target="_blank" style="background-color: #02c39a; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(2,195,154,0.3);">🟢 COMPRAR</a><a href="{url_binance_sell}" target="_blank" style="background-color: #e63946; color: white; padding: 12px 40px; border-radius: 5px; font-weight: bold; font-size: 14px; text-decoration: none; text-transform: uppercase; box-shadow: 0px 4px 12px rgba(230,57,70,0.3);">🔴 VENDER</a></div></div>', unsafe_allow_html=True)
             
-            # --- 🔮 MOTOR IA INTERACTIVO EN TIEMPO REAL REAL AL 100% (SEGUN EL MERCADO) ---
             if st.session_state.usuario_es_premium:
                 st.subheader("🧠 Centro de Inteligencia Global y Auditoría de Noticias")
                 st.success("✅ Licencia Premium Verificada. Conexión satélite activa.")
@@ -336,11 +338,14 @@ if boton_escanear or st.session_state.scan_ejecutado:
                 )
             else:
                 st.subheader("🧠 Centro de Inteligencia Global y Auditoría de Noticias")
-                st.warning("🔒 **Contenido Estratégico Oculto:** El hilo informativo dinámico en tiempo real de Bloomberg, Wall Street y las alertas algorítmicas de compra/venta están reservados para cuentas Premium activas. Realiza tu abono e introduce tu código para encender el satélite.")
+                st.warning("🔒 **Contenido Estratégico Oculto:** El hilo informativo dinámico en tiempo real de Bloomberg, Wall Street y las alertas algorítmicas de compra/venta están reservados para cuentas Premium activas. Realiza tu abono para encender el satélite.")
                 st.markdown("<div style='background-color: #1c1c1c; padding: 15px; text-align: center; border-radius: 6px; border: 1px dashed #444444;'><span style='color: #ff4b4b; font-weight: bold;'>Módulo restringido. Requiere validación de licencia.</span></div>", unsafe_allow_html=True)
             
+            # --- PANEL DE CONTROL PRIVADO PARA TI (CONTROL DE CLIENTES Y LEADS) ---
             if st.session_state.gmail_registrado in ["alberto.lantaron@gmail.com", "albertterre.lantaron@gmail.com"]:
-                st.info(f"📊 **CENTRAL DE LEADS (AUDITORÍA INTERNA ALBERTO):** {st.session_state.lista_leads_historico}")
+                st.divider()
+                st.info(f"📊 **PANEL DE CONTROL DE ALBERTO (CLIENTES PREMIUM ACTIVOS):** {st.session_state.clientes_premium_activos}")
+                st.info(f"📋 **HISTORIAL DE LEADS CAPTADOS:** {st.session_state.lista_leads_historico}")
                 
         else: st.error("Error: Yahoo Finance no ha devuelto registros válidos.")
     except Exception as e: st.error(f"Fallo en el núcleo algorítmico: {e}")
